@@ -16,3 +16,43 @@ if(isset($_POST['angka'])){
 
 
 }
+?>
+
+
+
+<?php
+//looping while dan do  while 
+echo "<br>ini perulangan dengan while<br>";
+
+if (isset($_POST['angka'])) {
+    $data = $_POST['angka'];
+    $i = 1;
+
+    while ($i <= $data) {
+        if ($i % 2 == 0) {
+            echo "Angka $i <br>";
+        }
+        $i++; 
+    }
+}
+?>
+
+
+
+
+
+<?php
+// do while
+echo "<br>ini perulangan dengan do while<br>";
+if (isset($_POST['angka'])) {
+    $data = $_POST['angka'];
+    $i = 1;
+
+    do {
+        echo "Angka: $i <br>";
+        $i++;
+    } while ($i <= $data);
+}
+?>
+
+
