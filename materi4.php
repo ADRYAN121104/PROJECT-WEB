@@ -22,3 +22,25 @@ if (isset($_POST['kirim'])) {
     }
 }
 ?>
+
+<table border="1" cellpadding="10" cellspacing="0">
+    <tr>
+        <th>nama</th>
+        <th>password</th>
+        <th>email</th>
+        <th>alamat</th>
+    </tr>
+
+    <?php
+    $query = "SELECT * FROM user";
+    $result = mysqli_query($koneksi, $query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . $row['nama'] . "</td>";
+        echo "<td>" . $row['password'] . "</td>";
+        echo "<td>" . $row['email'] . "</td>";
+        echo "<td>" . $row['alamat'] . "</td>";
+        echo "</tr>";
+    }
+    ?>
+    </table>

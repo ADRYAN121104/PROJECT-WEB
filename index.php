@@ -7,10 +7,9 @@ $hobi = ["membaca", "bermain game", "berolahraga"];
 
  echo "<br> <br>==============================<br><br>";
 
-//oprator dan kondisi (if else)
 
 
-//operator penjumlahan
+
  $nilai1 = 10;
  $nilai2 = 20;
  $hasil = $nilai1 + $nilai2;
@@ -19,7 +18,7 @@ $hobi = ["membaca", "bermain game", "berolahraga"];
 
   echo "<br> <br>==============================<br><br>";
 
-//operator pembagian
+
 $a = 12;
 $b = 4;
 
@@ -30,7 +29,7 @@ echo "Pembagian: $a / $b = $hasil";
 
 
   echo "<br> <br>==============================<br><br>";
-  //operator perkalian 
+ 
 $a = 12;
 $b = 4;
 
@@ -39,7 +38,7 @@ $hasil = $a * $b;
 echo "Perkalian: $a x $b = $hasil";
 
   echo "<br> <br>==============================<br><br>";
-//oprator perbandingan
+
 $nilai = 85;
 
 if ($nilai >= 90) {
