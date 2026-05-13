@@ -1,122 +1,181 @@
-<form action="" method="post">
-    nama : <input type="text" name="nama"><br>
-    password : <input type="password" name="password"><br> 
-    email : <input type="text" name="email"><br>
-    alamat : <input type="text" name="alamat"><br>
-    <input type="submit" value="kirim data" name="kirim"><br>
-</form>
-
 <?php
-$koneksi = mysqli_connect("localhost", "root", "", "db_wisata");
+
+$koneksi = mysqli_connect(
+    "localhost",
+    "root",
+    "",
+    "db_wisata"
+);
+
+if (mysqli_connect_errno()) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+
+if (!$koneksi) {
+    die("Koneksi gagal");
+}
+
+/* TAMBAH DATA */
 if (isset($_POST['kirim'])) {
+
     $nama = $_POST['nama'];
-    $password = $_POST['password'];
+    $pasword = $_POST['pasword'];
     $email = $_POST['email'];
     $alamat = $_POST['alamat'];
 
-    $query = "INSERT INTO user (nama, password, email, alamat) VALUES ('$nama', '$password', '$email', '$alamat')";
+    $query = "INSERT INTO users(nama,pasword,email,alamat)
+              VALUES('$nama','$pasword','$email','$alamat')";
+
     if (mysqli_query($koneksi, $query)) {
-        echo "berhasil memasukkan data";
+        echo "Data berhasil ditambahkan";
     } else {
-        echo "Error: " . mysqli_error($koneksi);
+        echo "Error : " . mysqli_error($koneksi);
     }
 }
+
+/* HAPUS DATA */
+if (isset($_GET['aksi']) && $_GET['aksi'] == 'hapus') {
+
+    $id = $_GET['id'];
+
+    $query = "DELETE FROM users WHERE id=$id";
+
+    if (mysqli_query($koneksi, $query)) {
+        echo "Data berhasil dihapus";
+    } else {
+        echo "Gagal hapus data";
+    }
+}
+
+/* UPDATE DATA */
+if (isset($_POST['update'])) {
+
+    $id = $_POST['id'];
+    $nama = $_POST['nama'];
+    $pasword = $_POST['pasword'];
+    $email = $_POST['email'];
+    $alamat = $_POST['alamat'];
+
+    $query = "UPDATE users 
+              SET nama='$nama',
+                  pasword='$pasword',
+                  email='$email',
+                  alamat='$alamat'
+              WHERE id=$id";
+
+    if (mysqli_query($koneksi, $query)) {
+        echo "Data berhasil diupdate";
+    } else {
+        echo "Error : " . mysqli_error($koneksi);
+    }
+}
+
 ?>
 
-<table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-        <th>id</th>
-        <th>nama</th>
-        <th>password</th>
-        <th>email</th>
-        <th>alamat</th>
-        <th>aksi</th>
-    </tr>
+<!-- FORM TAMBAH DATA -->
 
-    <?php
-    $query = "SELECT * FROM user";
-    $result = mysqli_query($koneksi, $query);
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<tr>";
-        echo "<td>" . $row['id'] . "</td>";
-        echo "<td>" . $row['nama'] . "</td>";
-        echo "<td>" . $row['password'] . "</td>";
-        echo "<td>" . $row['email'] . "</td>";
-        echo "<td>" . $row['alamat'] . "</td>";
-       echo "<td>
-<a href='?aksi=edit&id=" . $row['id'] . "'>Edit</a> | <a href='?aksi=hapus&id=" . $row['id'] . "' onclick=\"return confirm('Yakin hapus?')\">Delete</a>
-</td>";
-        echo "</tr>";
-        
-     }
+<h2>Tambah Data</h2>
 
-
-        function edit($id) {
-            global $koneksi;
-            $query = "SELECT * FROM user WHERE id = $id";
-            $result = mysqli_query($koneksi, $query);
-            return mysqli_fetch_assoc($result);
-            if (isset($_POST['update'])) {
-                $nama = $_POST['nama'];
-                $password = $_POST['password'];
-                $email = $_POST['email'];
-                $alamat = $_POST['alamat'];
-
-                $query = "UPDATE user SET nama='$nama', password='$password', email='$email', alamat='$alamat' WHERE id=$id";
-                return mysqli_query($koneksi, $query);
-            }
-        }
-
-
-            function delete($id) {
-                global $koneksi;
-                $query = "DELETE FROM user WHERE id = $id";
-                return mysqli_query($koneksi, $query);
-                if (isset($_POST['delete'])) {
-                    $query = "DELETE FROM user WHERE id = $id";
-                    return mysqli_query($koneksi, $query);
-                }
-            }
-    ?>
-    </table>
-
-
-
-    // proses edit
-    <?php
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
-        $query = "SELECT * FROM user WHERE id = $id";
-        $result = mysqli_query($koneksi, $query);
-        $row = mysqli_fetch_assoc($result);
-
-        $username = $row['nama'];
-        $password = $row['password'];
-        $email = $row['email'];
-        $alamat = $row['alamat'];
-
-        ?>
 <form action="" method="post">
-    <input type="text" name="nama" value="<?= $nama ?>"><br>
-    <input type="password" name="password" value="<?= $password ?>"><br>
-    <input type="text" name="email" value="<?= $email ?>"><br>
-    <input type="text" name="alamat" value="<?= $alamat ?>"><br>
-    <input type="submit" value="update data" name="update"><br>
+
+    Nama :
+    <input type="text" name="nama"><br><br>
+
+    Pasword :
+    <input type="password" name="pasword"><br><br>
+
+    Email :
+    <input type="text" name="email"><br><br>
+
+    Alamat :
+    <input type="text" name="alamat"><br><br>
+
+    <input type="submit" value="Kirim Data" name="kirim">
+
 </form>
+
+<br><br>
+
+<!-- TABEL DATA -->
+
+<table border="1" cellpadding="10" cellspacing="0">
+
+<tr>
+    <th>ID</th>
+    <th>Nama</th>
+    <th>Pasword</th>
+    <th>Email</th>
+    <th>Alamat</th>
+    <th>Aksi</th>
+</tr>
+
 <?php
 
-        if (isset($_POST['update'])) {
-            $nama = $_POST['nama'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            $alamat = $_POST['alamat'];
+$query = "SELECT * FROM users";
+$result = mysqli_query($koneksi, $query);
 
-            $query = "UPDATE user SET nama='$nama', password='$password', email='$email', alamat='$alamat' WHERE id=$id";
-            if (mysqli_query($koneksi, $query)) {
-                echo "berhasil update data";
-            } else {
-                echo "Error: " . mysqli_error($koneksi);
-            }
-        }
-       
-    }
+while ($row = mysqli_fetch_assoc($result)) {
+
+    echo "<tr>";
+
+    echo "<td>".$row['id']."</td>";
+    echo "<td>".$row['nama']."</td>";
+    echo "<td>".$row['pasword']."</td>";
+    echo "<td>".$row['email']."</td>";
+    echo "<td>".$row['alamat']."</td>";
+
+    echo "<td>
+    <a href='?aksi=edit&id=".$row['id']."'>Edit</a> |
+    <a href='?aksi=hapus&id=".$row['id']."' onclick=\"return confirm('Yakin hapus?')\">Delete</a>
+    </td>";
+
+    echo "</tr>";
+}
+
+?>
+
+</table>
+
+<br><br>
+
+<?php
+
+/* FORM EDIT */
+
+if (isset($_GET['aksi']) && $_GET['aksi'] == 'edit') {
+
+    $id = $_GET['id'];
+
+    $query = "SELECT * FROM users WHERE id=$id";
+    $result = mysqli_query($koneksi, $query);
+
+    $row = mysqli_fetch_assoc($result);
+
+?>
+
+<h2>Edit Data</h2>
+
+<form action="" method="post">
+
+    <input type="hidden" name="id" value="<?= $row['id']; ?>">
+
+    Nama :
+    <input type="text" name="nama" value="<?= $row['nama']; ?>"><br><br>
+
+    Pasword :
+    <input type="password" name="pasword" value="<?= $row['pasword']; ?>"><br><br>
+
+    Email :
+    <input type="text" name="email" value="<?= $row['email']; ?>"><br><br>
+
+    Alamat :
+    <input type="text" name="alamat" value="<?= $row['alamat']; ?>"><br><br>
+
+    <input type="submit" value="Update Data" name="update">
+
+</form>
+
+<?php
+}
+?>
+```

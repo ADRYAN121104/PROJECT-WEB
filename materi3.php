@@ -40,8 +40,8 @@ if(isset($_POST['a']) && isset($_POST['b'])) {
 
 <?php
 
-function login($user, $pass) {
-    if ($user == "admin" && $pass == "123") {
+function login($users, $pass) {
+    if ($users == "admin" && $pass == "123") {
         return "Login berhasil";
     } else {
         return "Login gagal";
@@ -67,8 +67,8 @@ if (isset($_POST['login'])) {
 
 <?php
 
-function login1 ($user, $pass) {
-    if ($user == "admin" && $pass == "123") {
+function login1 ($users, $pass) {
+    if ($users == "admin" && $pass == "123") {
         return "Login berhasil";
     } else {
         return "Login gagal";
