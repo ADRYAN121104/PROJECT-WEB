@@ -4,7 +4,7 @@ $koneksi = mysqli_connect(
     "localhost",
     "root",
     "",
-    "db_wisata"
+    "db_wisata 3"
 );
 
 if (mysqli_connect_errno()) {
